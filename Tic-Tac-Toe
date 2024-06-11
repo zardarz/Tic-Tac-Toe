@@ -1,0 +1,60 @@
+import sys
+import os
+
+board = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+playerTurn = "x"
+
+def showBoard():
+    print(board[0] + "|" + board[1] + "|" + board[2])
+    print("-----")
+    print(board[3] + "|" + board[4] + "|" + board[5])
+    print("-----")
+    print(board[6] + "|" + board[7] + "|" + board[8])
+
+def checkWin(b):
+    return ((b[0] == playerTurn and b[1] == playerTurn and b[2] == playerTurn) or
+            (b[3] == playerTurn and b[4] == playerTurn and b[5] == playerTurn) or
+            (b[6] == playerTurn and b[7] == playerTurn and b[8] == playerTurn) or
+            (b[0] == playerTurn and b[3] == playerTurn and b[6] == playerTurn) or
+            (b[1] == playerTurn and b[4] == playerTurn and b[7] == playerTurn) or
+            (b[2] == playerTurn and b[5] == playerTurn and b[8] == playerTurn) or
+            (b[0] == playerTurn and b[4] == playerTurn and b[8] == playerTurn) or
+            (b[2] == playerTurn and b[4] == playerTurn and b[6] == playerTurn))
+
+def go():
+    global playerTurn
+    spot = 0
+
+    while spot < 1 or spot > 9 or board[spot - 1] != " ":
+        os.system("clear")
+        showBoard()
+        print(playerTurn, "turn")
+        spot = int(input("Where would " + playerTurn + " like to go\n(1-9)?"))
+
+    if playerTurn == "x":
+        board[spot - 1] = "x"
+        if checkWin(board):
+            os.system("clear")
+            print(playerTurn, "wins!")
+            showBoard()
+            sys.exit()
+        playerTurn = "o"
+    else:
+        board[spot - 1] = "o"
+        if checkWin(board):
+            os.system("clear")
+            print(playerTurn, "wins!")
+            showBoard()
+            sys.exit()
+        playerTurn = "x"
+
+    if " " not in board:
+        os.system("clear")
+        showBoard()
+        print("Tie!")
+        
+        sys.exit()
+
+    go()
+
+go()
